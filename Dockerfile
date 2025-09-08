@@ -1,45 +1,51 @@
-FROM python:3.11-slim AS builder
+# Use a lightweight Python base image
+# We use a multi-stage build to keep the final image small and secure.
 
-# Set the working directory for the application
-WORKDIR /app
+# Stage 1: Build dependencies and static files
+FROM python:3.10-slim AS builder
 
-# Install system dependencies needed for some Python packages (e.g., psycopg2)
-# 'apt-get update' and 'apt-get install' are chained in a single RUN command
-# to reduce the number of image layers.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    gcc \
-    # Clean up APT cache to keep the image small
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy the requirements file into the container
-COPY requirements.txt .
-
-# Install Python dependencies from requirements.txt
-# The '--no-cache-dir' flag prevents pip from caching packages, saving space
-RUN pip install --no-cache-dir -r requirements.txt
-
-# STAGE 2: Create the final, lean production image
-# Use a minimal Python image for the final runtime environment
-FROM python:3.11-slim
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
 # Set the working directory
 WORKDIR /app
 
-# Copy only the installed dependencies from the 'builder' stage
-# This dramatically reduces the final image size by leaving behind
-# the build tools and intermediate files.
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=builder /app /app
+# Install system dependencies needed for some Python packages
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    gettext \
+    && rm -rf /var/lib/apt/lists/*
 
-# Expose the port that Gunicorn will run on
-EXPOSE 8000
+# Install project dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Collect static files. This step is crucial for production.
+# Copy the entire project into the builder stage
+COPY . .
+
+# Run collectstatic to gather all static files
+# The --noinput flag prevents interactive prompts during the build.
 RUN python manage.py collectstatic --noinput
 
-# Define the command to run the application using Gunicorn
-# 'CMD' runs a web server that will be accessible on the exposed port
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "myproject.wsgi:application"]
+# Stage 2: Final production image
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy only the necessary files from the builder stage
+# This includes the installed dependencies and collected static files.
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /app /app
+
+# Expose the application port
+EXPOSE 8000
+
+# Run the Django application with Gunicorn for production
+# This command should be specified in your docker-compose.yml
+# For local development, you might use `python manage.py runserver` instead.
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "<your_project_name>.wsgi:application"]
