@@ -37,6 +37,15 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR /app
 
+# Temporarily set the settings module for the collectstatic command
+ENV DJANGO_SETTINGS_MODULE=<your_project_name>.docker_settings
+
+# Run collectstatic to gather all static files
+RUN python manage.py collectstatic --noinput
+
+# Reset the settings module if you need to, or set the final one for the app
+ENV DJANGO_SETTINGS_MODULE=<your_project_name>.settings
+
 # Copy only the necessary files from the builder stage
 # This includes the installed dependencies and collected static files.
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
