@@ -38,13 +38,13 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Temporarily set the settings module for the collectstatic command
-ENV DJANGO_SETTINGS_MODULE=<your_project_name>.docker_settings
+ENV DJANGO_SETTINGS_MODULE=praktyki-2025-gl-backend.docker_settings
 
 # Run collectstatic to gather all static files
 RUN python manage.py collectstatic --noinput
 
 # Reset the settings module if you need to, or set the final one for the app
-ENV DJANGO_SETTINGS_MODULE=<your_project_name>.settings
+ENV DJANGO_SETTINGS_MODULE=praktyki-2025-gl-backend.settings
 
 # Copy only the necessary files from the builder stage
 # This includes the installed dependencies and collected static files.
@@ -57,4 +57,4 @@ EXPOSE 8000
 # Run the Django application with Gunicorn for production
 # This command should be specified in your docker-compose.yml
 # For local development, you might use `python manage.py runserver` instead.
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "<your_project_name>.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "praktyki-2025-gl-backend.wsgi:application"]
