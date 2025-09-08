@@ -27,8 +27,7 @@ RUN pip install -r requirements.txt
 
 # Explicitly copy project files into the container
 COPY manage.py .
-COPY praktyki-2025-gl-backend /app/praktyki-2025-gl-backend
-
+COPY . .
 # Run `collectstatic` to gather all static files
 RUN python manage.py collectstatic --noinput
 
