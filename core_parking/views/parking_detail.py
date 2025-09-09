@@ -34,7 +34,7 @@ class ParkingDetailWithAvailability(APIView):
                     Q(end_date__gte=start_time)
                 ).exists()
 
-                parking_spot.status = 1 if conflicting_reservations else 0
+                parking_spot.status = 'OCCUPIED' if conflicting_reservations else 'FREE'
 
             except (ValueError, TypeError):
                 pass # Ignore if dates are invalid, return original status
