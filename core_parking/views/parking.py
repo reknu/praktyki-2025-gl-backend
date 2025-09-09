@@ -2,38 +2,36 @@ from rest_framework import generics
 from ..models.parking import Parking
 from ..models.reservation import Reservation
 from ..serializers.parking import ParkingSerializer
-from django.db.models import Q
+from django.db.models import Q, Case, When, Value
 from django.utils import timezone
 
 class ParkingList(generics.ListCreateAPIView):
     serializer_class = ParkingSerializer
 
     def get_queryset(self):
-        # Pobierz wszystkie miejsca parkingowe
         queryset = Parking.objects.all()
 
-        # Pobierz aktualny czas
+        status_filter = self.request.query_params.get('status')
         now = timezone.now()
 
-        # Znajdź wszystkie rezerwacje, które są aktywne w tym momencie
-        active_reservations = Reservation.objects.filter(
+        # Znajdź ID wszystkich miejsc, które są obecnie zajęte
+        occupied_spot_ids = Reservation.objects.filter(
             Q(start_date__lte=now) & Q(end_date__gte=now)
         ).values_list('spot', flat=True)
 
-        occupied_spot_ids = list(active_reservations)
+        # Dynamicznie dodaj pole 'is_occupied' do każdego miejsca
+        queryset = queryset.annotate(
+            is_occupied=Case(
+                When(id__in=occupied_spot_ids, then=Value(True)),
+                default=Value(False)
+            )
+        )
 
-        # Dynamicznie zaktualizuj status każdego miejsca w zestawie zapytań
-        for parking_spot in queryset:
-            if parking_spot.id in occupied_spot_ids:
-                parking_spot.status = 1  # Zajęte
-            else:
-                parking_spot.status = 0  # Wolne
-        
-        # Nowa logika: Filtrowanie po dynamicznie obliczonym statusie
-        status_filter = self.request.query_params.get('status')
-        if status_filter is not None:
-            # Tworzymy nową listę obiektów, aby móc je przefiltrować
-            filtered_list = [spot for spot in queryset if str(spot.status) == status_filter]
-            return Parking.objects.filter(id__in=[spot.id for spot in filtered_list])
+        # Filtruj na podstawie parametru 'status'
+        if status_filter:
+            if status_filter.upper() == 'FREE':
+                queryset = queryset.filter(is_occupied=False)
+            elif status_filter.upper() == 'OCCUPIED':
+                queryset = queryset.filter(is_occupied=True)
 
         return queryset
