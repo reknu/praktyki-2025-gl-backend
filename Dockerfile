@@ -49,6 +49,9 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 COPY --from=builder /app /app
 
+# Copy the gunicorn executable from the builder stage
+COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
+
 # The final image should use the standard settings file for the application to run
 ENV DJANGO_SETTINGS_MODULE=praktyki-2025-gl-backend.settings
 
