@@ -56,6 +56,6 @@ ENV DJANGO_SETTINGS_MODULE=praktyki-2025-gl-backend.settings
 EXPOSE 8000
 
 # The command to start the application using Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "praktyki-2025-gl-backend.wsgi:application"]
+CMD ["/usr/local/bin/gunicorn", "--bind", "0.0.0.0:8000", "praktyki-2025-gl-backend.wsgi:application"]
 
 
