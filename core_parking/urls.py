@@ -3,7 +3,7 @@ from .views import EmployeeList, UserList, ParkingList, ReservationList
 from rest_framework.routers import DefaultRouter
 from .views.vehicle import VehicleViewSet
 router = DefaultRouter()
-router.register(r'vehicle', VehicleViewSet, basename='vehicle')
+router.register(r'vehicles', VehicleViewSet, basename='vehicle')
 urlpatterns = [
     path('employees/', EmployeeList.as_view()),
     path('users/', UserList.as_view()),

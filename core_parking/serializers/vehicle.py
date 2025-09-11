@@ -68,12 +68,7 @@ WYROZNIKI_3_ZNAKOWE = {
     "ZBI", "ZCH", "ZDR", "ZGL", "ZGR", "ZGY", "ZKA", "ZKO", "ZMY", "ZPL", "ZPY", "ZST", "ZSD", "ZWA", "ZLO",
 }
 DOZWOLONE_MARKI = {
-    "TOYOTA",
-    "NISSAN",
-    "BMW",
-    "VOLKSWAGEN",
-    "MERCEDES",
-    "SUZUKI",
+    "Toyota","Nissan","Bmw","Volkswagen","Mercedes","Suzuki",
 }
 
 from rest_framework import serializers
@@ -96,7 +91,7 @@ class VehicleSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 f"Marka '{value}' nie jest akceptowana. Dozwolone marki to: {', '.join(DOZWOLONE_MARKI)}."
             )
-        return value.upper()
+        return value
     def validate_registration_number(self, value):
         numer_bez_spacji = value.replace(" ", "").upper()
         dlugosc = len(numer_bez_spacji)
