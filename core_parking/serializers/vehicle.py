@@ -1,5 +1,5 @@
 
-WYROZNIKI_2_ZNAKOWE = {
+TWO_CHAR_DISTRICT_CODES = {
     # dolnośląskie
     "DB", "DE", "DL", "DW",
     # kujawsko-pomorskie
@@ -33,7 +33,7 @@ WYROZNIKI_2_ZNAKOWE = {
     # zachodniopomorskie
     "ZK", "ZS", "ZZ",
 }
-WYROZNIKI_3_ZNAKOWE = {
+THREE_CHAR_DISTRICT_CODES = {
     # dolnośląskie
     "DBL", "DDZ", "DGL", "DGR", "DJA", "DJE", "DKA", "DKL", "DLE", "DLB", "DLU", "DLW", "DMI", "DOA", "DOL", "DPL", "DSR", "DST", "DSW", "DTR", "DBA", "DWL", "DWR", "DZA", "DZG", "DZL",
     # kujawsko-pomorskie
@@ -67,8 +67,8 @@ WYROZNIKI_3_ZNAKOWE = {
     # zachodniopomorskie
     "ZBI", "ZCH", "ZDR", "ZGL", "ZGR", "ZGY", "ZKA", "ZKO", "ZMY", "ZPL", "ZPY", "ZST", "ZSD", "ZWA", "ZLO",
 }
-DOZWOLONE_MARKI = {
-    "Toyota","Nissan","Bmw","Volkswagen","Mercedes","Suzuki",
+ALLOWED_BRANDS = {
+    "Toyota","Nissan","B","Volkswagen","Mercedes","Suzuki",
 }
 
 from rest_framework import serializers
@@ -87,9 +87,9 @@ class VehicleSerializer(serializers.ModelSerializer):
     def validate_brand(self, value):
         sprawdzana_marka = value.strip().capitalize()
 
-        if sprawdzana_marka not in DOZWOLONE_MARKI:
+        if sprawdzana_marka not in ALLOWED_BRANDS:
             raise serializers.ValidationError(
-                f"Marka '{value}' nie jest akceptowana. Dozwolone marki to: {', '.join(DOZWOLONE_MARKI)}."
+                f"Marka '{value}' nie jest akceptowana. Dozwolone marki to: {', '.join(ALLOWED_BRANDS)}."
             )
         return value
     def validate_registration_number(self, value):
@@ -98,13 +98,13 @@ class VehicleSerializer(serializers.ModelSerializer):
 
         if dlugosc == 7:
             wyroznik = numer_bez_spacji[:2]
-            if wyroznik not in WYROZNIKI_2_ZNAKOWE:
+            if wyroznik not in TWO_CHAR_DISTRICT_CODES:
                 raise serializers.ValidationError(
                     f"Niepoprawny wyróżnik powiatu '{wyroznik}' dla tablicy 7-znakowej."
                 )
         elif dlugosc == 8:
             wyroznik = numer_bez_spacji[:3]
-            if wyroznik not in WYROZNIKI_3_ZNAKOWE:
+            if wyroznik not in THREE_CHAR_DISTRICT_CODES:
                 raise serializers.ValidationError(
                     f"Niepoprawny wyróżnik powiatu '{wyroznik}' dla tablicy 8-znakowej."
                 )
