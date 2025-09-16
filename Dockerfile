@@ -19,6 +19,18 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY requirements.txt .
+
+# --- Instructions to add the certificate ---
+# Switch to root to install the certificate
+USER root
+
+# Copy the certificate into the container
+COPY github.crt /usr/local/share/ca-certificates/github.crt
+
+# Update the certificate store
+RUN update-ca-certificates
+# --- End of new instructions ---
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
