@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from ..models import User
 
-class VerifyJWT(APIView):
+
+class JWTAccess(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
@@ -20,3 +21,4 @@ class VerifyJWT(APIView):
             {"detail": "Token is valid."},
             status=status.HTTP_200_OK,
         )
+

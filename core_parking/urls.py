@@ -1,14 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenRefreshView
+
 from .views.employee import EmployeeList
-from .views.login_view import LoginView
+from .views.login import LoginView
 # from .views.user import UserList, UserViewSet
 # from .views.vehicle import VehicleList, VehicleViewSet
 from .views.parking import ParkingList
 from .views.register import RegisterView
 from .views.reservation import ReservationList
 from .views.parking_detail import ParkingDetailWithAvailability
-from .views.verify_jwt import VerifyJWT
+from .views.verify_jwt import JWTAccess
 
 router = DefaultRouter()
 # router.register(r'vehicles', VehicleViewSet, basename='vehicle')
@@ -22,6 +24,7 @@ urlpatterns = [
     path('parking/<int:pk>/', ParkingDetailWithAvailability.as_view(), name='parking-detail'),
     path('reservations/', ReservationList.as_view(), name='reservation-list'),
     path('login/', LoginView.as_view(), name='login'),
-    path('verify_jwt/', VerifyJWT.as_view(), name='verify_jwt'),
+    path('token/access/', JWTAccess.as_view(), name='verify_jwt'),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path('', include(router.urls)),
 ]

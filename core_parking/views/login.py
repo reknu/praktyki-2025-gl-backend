@@ -10,10 +10,9 @@ from ..serializers.user import LoginSerializer
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
-    refresh['user_id'] = str(user.user_id)
     return {
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
     }
 
 class LoginView(APIView):
