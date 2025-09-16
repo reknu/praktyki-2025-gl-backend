@@ -1,3 +1,5 @@
+import uuid
+
 from rest_framework import serializers
 from ..models import User
 import re    # Importujemy moduł do obsługi wyrażeń regularnych
@@ -23,7 +25,7 @@ class LoginSerializer(serializers.Serializer):
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "full_name", "phone_number", "employee", "password"]
+        fields = ["id", "username", "full_name", "phone_number", "password"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate_password(self, value):
@@ -34,7 +36,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data["username"],
             full_name=validated_data["full_name"],
             phone_number=validated_data["phone_number"],
-            employee=validated_data.get("employee"),
+            user_id=str(uuid.uuid4()),  # ensure a unique ID
         )
         user.set_password(validated_data["password"])
         user.save()

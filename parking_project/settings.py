@@ -27,7 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'user_id',
+    'USER_ID_CLAIM': 'user_id',
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,6 +51,7 @@ REST_FRAMEWORK = {
             'rest_framework_simplejwt.authentication.JWTAuthentication',
         ),
 }
+AUTH_USER_MODEL = 'core_parking.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

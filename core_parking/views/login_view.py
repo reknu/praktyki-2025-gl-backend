@@ -8,6 +8,14 @@ from rest_framework.exceptions import ValidationError
 from ..models import User
 from ..serializers.user import LoginSerializer
 
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+    refresh['user_id'] = str(user.user_id)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
@@ -40,8 +48,7 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        refresh = RefreshToken.for_user(user)
-
+        tokens = get_tokens_for_user(user)
         return Response(
             {
                 "detail": {
@@ -49,8 +56,8 @@ class LoginView(APIView):
                     "full_name": user.full_name,
                     "phone_number": user.phone_number,
                 },
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
+                "refresh": tokens['refresh'],
+                "access": tokens['access'],
             },
-            status=status.HTTP_200_OK,
+            status=200,
         )
