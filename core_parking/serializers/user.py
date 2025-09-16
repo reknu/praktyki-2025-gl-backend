@@ -2,28 +2,40 @@ from rest_framework import serializers
 from ..models import User
 import re    # Importujemy moduł do obsługi wyrażeń regularnych
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
+def validate_password( value):
+    if len(value) < 8:
+        raise serializers.ValidationError("Password shall be at least 8 characters.")
+    if not re.search(r'[A-Z]', value):
+        raise serializers.ValidationError("Password shall contain at least one capital letter.")
+    if not re.search(r'[!@#$%^&*()_+-=\[\]{};\':"\\|,.<>\/?~`]', value):
+        raise serializers.ValidationError("Password shall contain at least one special character.")
+    return value
 
-    password = serializers.CharField(
-        write_only=True, 
-        style={'input_type': 'password'}
-    )
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+
 
     def validate_password(self, value):
+        return validate_password(value)
 
-        if len(value) < 8:
-            raise serializers.ValidationError("Hasło musi mieć co najmniej 8 znaków.")
-        if not re.search(r'[A-Z]', value):
-            raise serializers.ValidationError("Hasło musi zawierać co najmniej jedną wielką literę.")
-        if not re.search(r'[!@#$%^&*()_+-=\[\]{};\':"\\|,.<>\/?~`]', value):
-            raise serializers.ValidationError("Hasło musi zawierać co najmniej jeden znak specjalny.")
-        return value
 
-def create(self, validated_data):
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "full_name", "phone_number", "employee", "password"]
+        extra_kwargs = {"password": {"write_only": True}}
 
-    User.set_password(validated_data['password'])
-    User.save()
-    return validated_data
+    def validate_password(self, value):
+        return validate_password(value)
+
+    def create(self, validated_data):
+        user = User(
+            username=validated_data["username"],
+            full_name=validated_data["full_name"],
+            phone_number=validated_data["phone_number"],
+            employee=validated_data.get("employee"),
+        )
+        user.set_password(validated_data["password"])
+        user.save()
+        return user
