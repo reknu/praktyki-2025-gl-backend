@@ -13,7 +13,7 @@ from .views.register import RegisterView
 from .views.reservation import ReservationList
 from .views.parking_detail import ParkingDetailWithAvailability
 from .views.verify_jwt import JWTAccess
-from .views.user import UserViewSet
+# from .views.user import UserViewSet
 from .views.vehicle import VehicleViewSet
 from .views.reservation import ReservationList, UserReservationsList, LatestFiveReservations
 from .views.report import ReportCreateAPIView
@@ -21,9 +21,9 @@ from .views.report import ReportCreateAPIView
 # from .views.vehicle import VehicleList, VehicleViewSet
 
 
-router = DefaultRouter()
-router.register(r'vehicles', VehicleViewSet, basename='vehicle')
-router.register(r'users', UserViewSet, basename='user')
+# router = DefaultRouter()
+# router.register(r'vehicles', VehicleViewSet, basename='vehicle')
+# router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     path('employees/', EmployeeList.as_view(), name='employee-list'),
@@ -34,12 +34,12 @@ urlpatterns = [
     path('token/access/', JWTAccess.as_view(), name='verify_jwt'),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path('report/', ReportCreateAPIView.as_view(), name='report-problem'),
-    path('users/', UserList.as_view(), name='user-list'),
-    path('vehicles/', VehicleList.as_view(), name='vehicle-list'),
+    # path('users/', UserList.as_view(), name='user-list'),
+    # path('vehicles/', VehicleList.as_view(), name='vehicle-list'),
     path('parking/', ParkingList.as_view(), name='parking-list'),
     path('parking/<int:pk>/', ParkingDetailWithAvailability.as_view(), name='parking-detail'),
     path('reservations/', ReservationList.as_view(), name='reservation-list'), # co robi samo reservations, tworzy moze?
     path('reservations/list', UserReservationsList.as_view(), name='reservation-list'),
     path('reservations/list/latest', LatestFiveReservations.as_view(), name='reservation-list'),
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
 ]
