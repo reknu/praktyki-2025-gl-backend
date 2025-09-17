@@ -6,7 +6,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import ValidationError
 
 from ..models import User
-from ..serializers.user import LoginSerializer
+from ..serializers.user import LoginSerializer, UserDetailSerializer
+
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -34,29 +35,31 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        # Use LoginSerializer for password validation
+        # Validate login input
         serializer = LoginSerializer(data={"username": username, "password": password})
         try:
             serializer.is_valid(raise_exception=True)
         except ValidationError as e:
             return Response({"detail": e.detail}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Check password
         if not check_password(password, user.password):
             return Response(
                 {"detail": "Invalid credentials."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+        # Generate tokens
         tokens = get_tokens_for_user(user)
+
+        # Serialize full user details
+        user_data = UserDetailSerializer(user).data
+
         return Response(
             {
-                "detail": {
-                    "username": user.username,
-                    "full_name": user.full_name,
-                    "phone_number": user.phone_number,
-                },
-                "refresh": tokens['refresh'],
-                "access": tokens['access'],
+                "user": user_data,
+                "refresh": tokens["refresh"],
+                "access": tokens["access"],
             },
-            status=200,
+            status=status.HTTP_200_OK,
         )
