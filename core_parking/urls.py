@@ -4,6 +4,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from .views.employee import EmployeeList
+# from .views.user import UserList, UserViewSet
+# from .views.vehicle import VehicleList, VehicleViewSet
 from .views.user import UserViewSet
 from .views.vehicle import VehicleViewSet
 from .views.parking import ParkingList

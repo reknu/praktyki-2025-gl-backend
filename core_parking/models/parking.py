@@ -7,3 +7,4 @@ class Parking(models.Model):
     spot_number = models.CharField(max_length=10)
     floor = models.IntegerField()
     status = models.IntegerField(choices=Status.choices, default=Status.FREE)
+    aisle = models.CharField(max_length=40)
