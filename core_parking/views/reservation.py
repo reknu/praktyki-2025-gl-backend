@@ -1,4 +1,4 @@
-# core_parking/views/reservation.py
+
 
 from rest_framework import generics
 from ..models.reservation import Reservation
@@ -11,5 +11,4 @@ class ReservationList(generics.ListCreateAPIView):
     """
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    # Usunęliśmy stąd linię 'permission_classes'
-    # Usunęliśmy stąd metodę 'perform_create'
+

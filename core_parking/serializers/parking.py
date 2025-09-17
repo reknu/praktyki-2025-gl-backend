@@ -1,7 +1,10 @@
+
+
 from rest_framework import serializers
-from ..models import Parking
+from ..models.parking import Parking
 
 class ParkingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parking
-        fields = '__all__'
+     
+        fields = ['id', 'spot_number', 'floor', 'status']

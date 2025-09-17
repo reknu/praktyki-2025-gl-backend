@@ -1,0 +1,10 @@
+[33m8228253[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull origin main: Fast-forward
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{1}: checkout: moving from KAN19 to main
+[33m05e6059[m[33m ([m[1;31morigin/KAN19[m[33m, [m[1;32mKAN19[m[33m)[m HEAD@{2}: commit: endpoint show user reserved parking space
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{3}: checkout: moving from main to KAN19
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{4}: checkout: moving from KAN19 to main
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{5}: checkout: moving from KAN19 to KAN19
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{6}: checkout: moving from main to KAN19
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{7}: checkout: moving from KAN34 to main
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{8}: checkout: moving from main to KAN34
+[33m7ab2719[m[33m ([m[1;32mKAN34[m[33m)[m HEAD@{9}: clone: from https://github.com/reknu/praktyki-2025-gl-backend.git
