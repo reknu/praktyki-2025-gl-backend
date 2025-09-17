@@ -1,7 +1,7 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from core_parking.models import Parking, Reservation, Employee, User
+from core_parking.models import Parking, Reservation, Employee, User, Report
 from django.utils import timezone
 from datetime import timedelta
 
@@ -124,3 +124,60 @@ class ParkingDetailTestCase(APITestCase):
         response = self.client.get(reverse('parking-detail', args=[self.parking_spot.id]), query_params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status'], 'OCCUPIED')
+
+class ReportCreateTestCase(APITestCase):
+
+    def setUp(self):
+        self.parking_spot = Parking.objects.create(spot_number='D01', floor=1)
+        self.employee = Employee.objects.create(first_name="Test", last_name="Employee", email="test@example.com")
+        self.user = User.objects.create(password='testpassword', employee=self.employee)
+        self.url = reverse('report-problem')
+
+    def test_create_report(self):
+        """
+        Testuje, czy można poprawnie stworzyć zgłoszenie problemu
+        i czy dane są zapisywane w bazie danych.
+        """
+        data = {
+            'reporter': self.employee.id,
+            'parking_spot': self.parking_spot.id,
+            'description': 'Czujnik na miejscu D01 jest uszkodzony.'
+        }
+        
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Report.objects.count(), 1)
+        
+        report = Report.objects.first()
+        self.assertEqual(report.reporter, self.employee)
+        self.assertEqual(report.parking_spot, self.parking_spot)
+        self.assertEqual(report.description, 'Czujnik na miejscu D01 jest uszkodzony.')
+
+    def test_create_report_with_missing_field(self):
+        """
+        Testuje, czy API zwraca błąd, gdy brakuje wymaganego pola.
+        """
+        data = {
+            'reporter': self.employee.id,
+            'description': 'Problem bez przypisanego miejsca.'
+        }
+        
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('parking_spot', response.data)
+        self.assertEqual(Report.objects.count(), 0)
+
+    def test_create_report_with_invalid_data(self):
+        """
+        Testuje, czy API zwraca błąd dla nieprawidłowych danych.
+        """
+        data = {
+            'reporter': 9999, # ID, które nie istnieje
+            'parking_spot': self.parking_spot.id,
+            'description': 'Nieprawidłowy reporter.'
+        }
+        
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('reporter', response.data)
+        self.assertEqual(Report.objects.count(), 0)
