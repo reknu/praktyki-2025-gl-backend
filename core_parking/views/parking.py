@@ -1,14 +1,16 @@
 from rest_framework import generics
-from ..models.parking import Parking
-from ..models.reservation import Reservation
-from ..serializers.parking import ParkingSerializer
 from django.db.models import Q, Case, When, Value
 from django.utils import timezone
 from datetime import datetime
-
+from django_filters.rest_framework import DjangoFilterBackend 
+from ..models.parking import Parking
+from ..models.reservation import Reservation
+from ..serializers.parking import ParkingSerializer
+from ..filters import ParkingFilter     
 class ParkingList(generics.ListCreateAPIView):
     serializer_class = ParkingSerializer
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ParkingFilter
     def get_queryset(self):
         queryset = Parking.objects.all()
         now = timezone.now()
@@ -35,12 +37,5 @@ class ParkingList(generics.ListCreateAPIView):
                 default=Value(False)
             )
         )
-        
-        status_filter = self.request.query_params.get('status')
-        if status_filter:
-            if status_filter.upper() == 'FREE':
-                queryset = queryset.filter(is_occupied=False)
-            elif status_filter.upper() == 'OCCUPIED':
-                queryset = queryset.filter(is_occupied=True)
-                
+
         return queryset
