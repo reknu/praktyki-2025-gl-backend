@@ -37,8 +37,9 @@ class UpdateReservation(generics.RetrieveUpdateAPIView):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Reservation.objects.filter(user=self.request.user)
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True 
+        return super().update(request, *args, **kwargs)
     
 class GetReservationById(APIView):
     permission_classes = [IsAuthenticated]
