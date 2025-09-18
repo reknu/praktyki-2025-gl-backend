@@ -67,4 +67,4 @@ class DeleteReservationById(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         reservation.delete()
-        return Response({"detail": "Reservation deleted successfully."}, status=status.HTTP_200_OK)
+        return Response({"detail": "Reservation deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
