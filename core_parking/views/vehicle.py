@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models import Vehicle
 from ..serializers import VehicleSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class VehicleListCreateView(generics.ListCreateAPIView):
     serializer_class = VehicleSerializer
