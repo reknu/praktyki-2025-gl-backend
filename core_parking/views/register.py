@@ -4,7 +4,7 @@ from rest_framework import status
 from core_parking.serializers.user import RegisterSerializer
 
 class RegisterView(APIView):
-    REQUIRED_FIELDS = ["username", "full_name", "phone_number", "password"]
+    REQUIRED_FIELDS = ["username", "full_name", "phone_number", "email", "password"]
 
     def post(self, request, *args, **kwargs):
         missing_fields = [f for f in self.REQUIRED_FIELDS if not request.data.get(f)]
