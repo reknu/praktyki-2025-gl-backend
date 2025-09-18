@@ -13,6 +13,13 @@ class ParkingList(generics.ListCreateAPIView):
         queryset = Parking.objects.all()
         now = timezone.now()
         
+        floor_param = self.request.query_params.get('floor')
+        if floor_param:
+            try:
+                floor_int = int(floor_param)
+                queryset = queryset.filter(floor=floor_int)
+            except ValueError:
+                pass  
         start_time_str = self.request.query_params.get('start_time')
         end_time_str = self.request.query_params.get('end_time')
         
