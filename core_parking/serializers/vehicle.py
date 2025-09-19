@@ -130,8 +130,8 @@ class VehicleSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Vehicle
-        fields = ["id", "brand", "registration_number"]
-
+        fields = ["id", "registration_number", "brand", "model", "year", "color"]
+        
     def validate_brand(self, value):
         sprawdzana_marka = value.strip().capitalize()
 

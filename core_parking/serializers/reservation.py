@@ -1,10 +1,24 @@
 from rest_framework import serializers
 from ..models import Reservation
-
+from .user import UserDetailSerializer
+from .vehicle import VehicleSerializer
 class ReservationSerializer(serializers.ModelSerializer):
+    vehicle = VehicleSerializer(read_only=True)
+    user = UserDetailSerializer(read_only=True)
+
+    vehicle_id = serializers.PrimaryKeyRelatedField(
+        queryset=Reservation._meta.get_field("vehicle").remote_field.model.objects.all(),
+        source="vehicle",
+        write_only=True
+    )
+
     class Meta:
         model = Reservation
-        fields = "__all__"  
+        fields = [
+            "id", "spot", "start_date", "end_date",
+            "vehicle", "vehicle_id",  # both read + write
+            "user"
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

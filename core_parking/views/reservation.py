@@ -69,3 +69,19 @@ class DeleteReservationById(APIView):
             )
         reservation.delete()
         return Response({"detail": "Reservation deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+    
+class GetReservationById(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk, *args, **kwargs):
+        try:
+            reservation = Reservation.objects.select_related("vehicle", "user").get(
+                pk=pk, user=request.user
+            )
+        except Reservation.DoesNotExist:
+            return Response(
+                {"detail": "Reservation not found or you do not have permission."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = ReservationSerializer(reservation)
+        return Response(serializer.data, status=status.HTTP_200_OK)

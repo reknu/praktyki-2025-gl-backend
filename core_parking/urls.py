@@ -16,7 +16,7 @@ from .views.update_user import UpdateUserView
 from .views.verify_jwt import JWTAccess
 # from .views.user import UserViewSet
 from .views.vehicle import VehicleDetailView, VehicleListCreateView
-from .views.reservation import CreateReservation, UserReservationsList, LatestFiveReservations, UpdateReservation, DeleteReservationById
+from .views.reservation import CreateReservation, UserReservationsList, LatestFiveReservations, UpdateReservation, DeleteReservationById, GetReservationById
 from .views.report import ReportCreateAPIView
 # from .views.user import UserList, UserViewSet
 
@@ -37,11 +37,12 @@ urlpatterns = [
     # path('vehicles/', VehicleList.as_view(), name='vehicle-list'),
     path('parking/', ParkingList.as_view(), name='parking-list'),
     path('parking/<int:pk>/', ParkingDetailWithAvailability.as_view(), name='parking-detail'),
+    path("user/update/", UpdateUserView.as_view(), name="user-update"),
+    path("user/delete/", DeleteUserView.as_view(), name="user-delete"),
     path('reservations/create/', CreateReservation.as_view(), name='reservation-list'), 
     path('reservations/list/', UserReservationsList.as_view(), name='reservation-list'),
     path('reservations/list/latest/', LatestFiveReservations.as_view(), name='reservation-list'),
-    path("user/update/", UpdateUserView.as_view(), name="user-update"),
-    path("user/delete/", DeleteUserView.as_view(), name="user-delete"),
+    path("reservations/<int:pk>/", GetReservationById.as_view(), name="get-reservation"),
     path('reservations/<int:pk>/update/', UpdateReservation.as_view(), name='reservation-update'), 
     path('reservations/<int:pk>/delete/', DeleteReservationById.as_view(), name='reservation-delete'),
     path('vehicles/', VehicleListCreateView.as_view(), name='vehicle-list-create'),   
