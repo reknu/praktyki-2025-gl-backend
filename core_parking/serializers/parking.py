@@ -7,7 +7,7 @@ class ParkingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Parking
-        fields = ('id', 'spot_number', 'floor', 'status')
+        fields = "__all__"
 
     def get_status(self, obj):
         # Sprawdź, czy obiekt ma atrybut 'is_occupied',
