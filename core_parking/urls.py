@@ -3,6 +3,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views.employee import EmployeeList
+from .views.admin import AdminList
 from .views.parking import ParkingList
 from .views.reservation import ReservationList
 from .views.vehicle import VehicleViewSet
@@ -16,5 +17,6 @@ urlpatterns = [
     path('parking/', ParkingList.as_view(), name='parking-list'),
     path('reservations/', ReservationList.as_view(), name='reservation-list'),
     path('parking/<int:pk>/', ParkingDetailWithAvailability.as_view(), name='parking-detail'),
+    path('admin/', AdminList.as_view(), name='admin'),
     path('', include(router.urls)),
 ]

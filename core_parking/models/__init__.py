@@ -3,3 +3,4 @@ from .employee import Employee
 from .vehicle import Vehicle
 from .parking import Parking
 from .reservation import Reservation
+from .admin import Admin

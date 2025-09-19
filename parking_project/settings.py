@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_spectacular',
-    'core_parking',    
+    'core_parking', 
+    'django_filters',   
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {
