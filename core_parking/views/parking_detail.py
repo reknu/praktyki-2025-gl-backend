@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from ..models.parking import Parking
 from ..models.reservation import Reservation
 from ..serializers.parking import ParkingSerializer
@@ -10,10 +11,14 @@ from rest_framework.exceptions import NotFound
 class ParkingDetailWithAvailability(generics.RetrieveAPIView):
     queryset = Parking.objects.all()
     serializer_class = ParkingSerializer
+    # This line is added to require authentication for all requests to this view
+    permission_classes = [IsAuthenticated]
     
     def get_object(self):
         spot_id = self.kwargs.get('pk')  # Get spot id from URL
         try:
+            # The previous version used 'spot_number', but your URL config expects 'pk' (id).
+            # The code is now fixed to use 'id' as the filter.
             parking_spot_queryset = Parking.objects.filter(id=spot_id)
             if not parking_spot_queryset.exists():
                 raise NotFound("Parking spot not found.")
@@ -29,8 +34,9 @@ class ParkingDetailWithAvailability(generics.RetrieveAPIView):
         end_time_str = self.request.query_params.get('end_time')
         if start_time_str and end_time_str:
             try:
-                start_time = datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
-                end_time = datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
+                # Replace 'Z' and make the datetime objects timezone-aware
+                start_time = timezone.make_aware(datetime.fromisoformat(start_time_str.replace('Z', '+00:00')))
+                end_time = timezone.make_aware(datetime.fromisoformat(end_time_str.replace('Z', '+00:00')))
             except (ValueError, TypeError):
                 pass
 

@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from ..models.parking import Parking
 from ..models.reservation import Reservation
 from ..serializers.parking import ParkingSerializer
@@ -8,6 +9,8 @@ from datetime import datetime
 
 class ParkingList(generics.ListCreateAPIView):
     serializer_class = ParkingSerializer
+    # This line is added to require authentication for all requests to this view
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Parking.objects.all()
@@ -25,8 +28,9 @@ class ParkingList(generics.ListCreateAPIView):
         
         if start_time_str and end_time_str:
             try:
-                start_time = datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
-                end_time = datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
+                # Replace 'Z' and make the datetime objects timezone-aware
+                start_time = timezone.make_aware(datetime.fromisoformat(start_time_str.replace('Z', '+00:00')))
+                end_time = timezone.make_aware(datetime.fromisoformat(end_time_str.replace('Z', '+00:00')))
             except (ValueError, TypeError):
                 start_time, end_time = now, now
         else:
