@@ -1,14 +1,18 @@
-
 from rest_framework import generics, status
+from ..filters import VehicleFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from ..serializers.vehicle import VehicleSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Vehicle
 from ..serializers import VehicleSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class VehicleListCreateView(generics.ListCreateAPIView):
     serializer_class = VehicleSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = VehicleFilter
 
     def get_queryset(self):
         return Vehicle.objects.filter(user=self.request.user)

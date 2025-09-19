@@ -6,10 +6,15 @@ from ..serializers.parking import ParkingSerializer
 from django.db.models import Q, Case, When, Value
 from django.utils import timezone
 from datetime import datetime
-
+from django_filters.rest_framework import DjangoFilterBackend 
+from ..models.parking import Parking
+from ..models.reservation import Reservation
+from ..serializers.parking import ParkingSerializer
+from ..filters import ParkingFilter     
 class ParkingList(generics.ListCreateAPIView):
     serializer_class = ParkingSerializer
-    # This line is added to require authentication for all requests to this view
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ParkingFilter
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

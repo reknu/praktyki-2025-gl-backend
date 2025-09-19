@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
-    'core_parking',    
+    'core_parking', 
+    'django_filters',   
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {

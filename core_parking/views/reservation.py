@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from ..models import Reservation, User
 from ..serializers import ReservationSerializer
 from rest_framework.views import APIView
-
+from ..filters import ReservationFilter 
+from django_filters.rest_framework import DjangoFilterBackend 
 
 class CreateReservation(generics.CreateAPIView):
     serializer_class = ReservationSerializer
@@ -35,6 +36,8 @@ class LatestFiveReservations(APIView):
 class UpdateReservation(generics.RetrieveUpdateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ReservationFilter
     permission_classes = [IsAuthenticated]
 
     def update(self, request, *args, **kwargs):
