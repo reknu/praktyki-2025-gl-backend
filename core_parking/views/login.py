@@ -4,6 +4,7 @@ from rest_framework import status
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 
 from ..models import User
 from ..serializers.user import LoginSerializer, UserDetailSerializer
@@ -64,4 +65,17 @@ class LoginView(APIView):
                 }
             },
             status=status.HTTP_200_OK,
+        )
+
+class LoginByToken(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user_data = UserDetailSerializer(user).data
+        return Response(
+            {"detail": {
+                "user": user_data
+            }},
+            status=status.HTTP_200_OK
         )

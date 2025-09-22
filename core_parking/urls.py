@@ -8,7 +8,7 @@ from .views.delete_user import DeleteUserView
 # from .views.user import UserList, UserViewSet
 # from .views.vehicle import VehicleList, VehicleViewSet
 from .views.employee import EmployeeList
-from .views.login import LoginView
+from .views.login import LoginView, LoginByToken
 from .views.parking import ParkingList
 from .views.register import RegisterView
 from .views.parking_detail import ParkingDetailWithAvailability
@@ -30,6 +30,7 @@ urlpatterns = [
     path('parking/', ParkingList.as_view(), name='parking-list'),
     path("register/", RegisterView.as_view(), name="register"),
     path('login/', LoginView.as_view(), name='login'),
+    path('token/login/', LoginByToken.as_view(), name='login-by-token'),
     path('token/access/', JWTAccess.as_view(), name='verify_jwt'),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path('report/', ReportCreateAPIView.as_view(), name='report-problem'),
