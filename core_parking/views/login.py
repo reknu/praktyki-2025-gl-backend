@@ -58,7 +58,7 @@ class LoginView(APIView):
 
         return Response(
             {
-                "details": {
+                "detail": {
                 "user": user_data,
                 "refresh": tokens["refresh"],
                 "access": tokens["access"]
