@@ -12,6 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
         style={'input_type': 'password'}
     )
 
+    def validate_username(self, value):
+        if User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError("Użytkownik o tej nazwie już istnieje.")
+        return value
+
     def validate_password(self, value):
 
         if len(value) < 8:
