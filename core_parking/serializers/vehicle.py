@@ -137,7 +137,7 @@ class VehicleSerializer(serializers.ModelSerializer):
 
         if sprawdzana_marka not in ALLOWED_BRANDS:
             raise serializers.ValidationError(
-                f"Brand '{value}' is not acceptable. Allowed Brands: {(ALLOWED_BRANDS)}."
+                f"Brand '{value}' is not acceptable."
             )
         return value
     def validate_registration_number(self, value):
