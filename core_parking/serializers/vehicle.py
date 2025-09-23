@@ -67,9 +67,57 @@ THREE_CHAR_DISTRICT_CODES = {
     # zachodniopomorskie
     "ZBI", "ZCH", "ZDR", "ZGL", "ZGR", "ZGY", "ZKA", "ZKO", "ZMY", "ZPL", "ZPY", "ZST", "ZSD", "ZWA", "ZLO",
 }
-ALLOWED_BRANDS = {
-    "Toyota","Nissan","B","Volkswagen","Mercedes","Suzuki",
-}
+ALLOWED_BRANDS = [
+    "Abadal", "Abarth", "Abbott-Detroit", "ABT", "AC", "Acura", "Aiways", "Aixam", 
+    "Alfa Romeo", "Alpina", "Alpine", "Alta", "Alvis", "AMC", "Apollo", "Arash", 
+    "Arcfox", "Ariel", "ARO", "Arrival", "Arrinera", "Artega", "Ascari", "Askam", 
+    "Aspark", "Aston Martin", "Atalanta", "Auburn", "Audi", "Audi Sport", "Austin", 
+    "Autobacs", "Autobianchi", "Axon", "BAC", "BAIC Motor", "Baojun", "BeiBen", 
+    "Bentley", "Berkeley", "Berliet", "Bertone", "Bestune", "BharatBenz", "Bitter", 
+    "Bizzarrini", "BMW", "BMW M", "Borgward", "Bowler", "Brabus", "Brammo", "Brilliance", 
+    "Bristol", "Brooke", "Bufori", "Bugatti", "Buick", "BYD", "Byton", "Cadillac", 
+    "CAMC", "Canoo", "Caparo", "Carlsson", "Caterham", "Changan", "Changfeng", "Chery", 
+    "Chevrolet Corvette", "Chevrolet", "Chrysler", "Cisitalia", "Citroën", "Cizeta", 
+    "Cole", "Corre La Licorne", "Dacia", "Daewoo", "DAF", "Daihatsu", "Daimler", "Dartz", 
+    "Datsun", "David Brown", "Dayun", "De Tomaso", "Delage", "DeSoto", "Detroit Electric", 
+    "Devel Sixteen", "Diatto", "DINA", "DKW", "DMC", "Dodge", "Dodge Viper", "Dongfeng", 
+    "Donkervoort", "Drako", "DS", "Duesenberg", "Eagle", "EDAG", "Edsel", "Eicher", 
+    "Elemental", "Elfin", "Elva", "Englon", "ERF", "Eterniti", "Exeed", "9ff", "Facel Vega", 
+    "Faraday Future", "FAW", "FAW Jiefang", "Ferrari", "Fiat", "Fioravanti", "Fisker", 
+    "Foden", "Force Motors", "Ford", "Ford Mustang", "Foton", "FPV", "Franklin", "Freightliner", 
+    "FSO", "GAC Group", "Gardner Douglas", "GAZ", "Geely", "General Motors", "Genesis", 
+    "Geo", "Geometry", "Gilbern", "Gillet", "Ginetta", "GMC", "Golden Dragon", "Gonow", 
+    "Great Wall", "Grinnall", "Gumpert", "Hafei", "Haima", "Haval", "Hawtai", "Hennessey", 
+    "Hillman", "Hindustan Motors", "Higer", "Hino", "HiPhi", "Hispano-Suiza", "Holden", 
+    "Hommell", "Honda", "Hongqi", "Hongyan", "Horch", "HSV", "Hudson", "Hummer", "Hupmobile", 
+    "Hyundai", "IC Bus", "Infiniti", "Innocenti", "Intermeccanica", "IH", "International", 
+    "IKCO", "Irizar", "Isdera", "Iso", "Isuzu", "Iveco", "JAC", "Jaguar", "Jawa", "JBA Motors", 
+    "Jeep", "Jensen", "Jetta", "JMC", "Kaiser", "Kamaz", "Karlmann King", "Karma", "Keating", 
+    "Kenworth", "Kia", "King Long", "Koenigsegg", "KTM", "Lada", "Lagonda", "Lamborghini", 
+    "Lancia", "Land Rover", "Landwind", "Laraki", "Leapmotor", "Lexus", "Leyland", "Li Auto", 
+    "Lifan", "Ligier", "Lincoln", "Lister", "Lloyd", "Lobini", "LEVC", "Lordstown", "Lotus", 
+    "Lucid", "Luxgen", "Lynk & Co", "Mack", "Mahindra", "MAN", "Mansory", "Marcos", "Marlin", 
+    "Maserati", "Mastretta", "Maxus", "Maybach", "MAZ", "Mazda", "Mazzanti", "McLaren", "Melkus", 
+    "Mercedes-AMG", "Mercedes-Benz", "Mercury", "Merkur", "MEV", "MG", "Microcar", "Mini", 
+    "Mitsubishi", "Mitsuoka", "MK", "Morgan", "Morris", "Mosler", "Navistar", "NEVS", "NIO", 
+    "Nikola", "Nissan GT-R", "Nissan", "Nissan Nismo", "Noble", "Oldsmobile", "Oltcit", "Opel", 
+    "OSCA", "Paccar", "Packard", "Pagani", "Panhard", "Panoz", "Pegaso", "Perodua", "Peterbilt", 
+    "Peugeot", "PGO", "Pierce-Arrow", "Pininfarina", "Plymouth", "Polestar", "Pontiac", 
+    "Porsche", "Praga", "Premier", "Prodrive", "Proton", "Qoros", "Radical", "RAM", "Rambler", 
+    "Ranz", "Renault", "Renault Samsung", "Rezvani", "Riley", "Rimac", "Rinspeed", "Rivian", 
+    "Roewe", "Rolls-Royce", "Ronart", "Rossion", "Rover", "RUF", "Saab", "SAIC Motor", 
+    "Saipa", "Saleen", "Saturn", "Scania", "Scion", "SEAT", "Setra", "Shacman", "Simca", 
+    "Singer", "Singulato", "Sinotruk", "Sisu", "Škoda", "Smart", "Soueast", "Spania GTA", 
+    "Spirra", "Spyker", "SsangYong", "SSC", "Sterling", "Studebaker", "Stutz", "Subaru", 
+    "Suffolk", "Suzuki", "Talbot", "Tata", "Tatra", "Tauro", "TechArt", "Tesla", 
+    "Toyota Alphard", "Toyota Century", "Toyota Crown", "Toyota", "Tramontana", "Trion", 
+    "Triumph", "Troller", "Tucker", "TVR", "UAZ", "UD", "Ultima", "Vandenbrink", "Vauxhall", 
+    "Vector", "Vencer", "Venturi", "Venucia", "VinFast", "VLF", "Volkswagen", "Volvo", 
+    "Wanderer", "W Motors", "Wartburg", "Weltmeister", "Western Star", "Westfield", "WEY", 
+    "Wiesmann", "Willys-Overland", "Workhorse", "Wuling", "XPeng", "Yulon", "Yutong", 
+    "Zarooq Motors", "Zastava", "ZAZ", "Zeekr", "Zenos", "Zenvo", "Zhongtong", "Zinoro", 
+    "Zotye"
+]
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -82,35 +130,35 @@ class VehicleSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Vehicle
-        fields = '__all__'
-
+        fields = ["id", "registration_number", "brand", "model", "year", "color"]
+        
     def validate_brand(self, value):
         sprawdzana_marka = value.strip().capitalize()
 
         if sprawdzana_marka not in ALLOWED_BRANDS:
             raise serializers.ValidationError(
-                f"Marka '{value}' nie jest akceptowana. Dozwolone marki to: {', '.join(ALLOWED_BRANDS)}."
+                f"Brand '{value}' is not acceptable. Allowed Brands: {(ALLOWED_BRANDS)}."
             )
         return value
     def validate_registration_number(self, value):
-        numer_bez_spacji = value.replace(" ", "").upper()
-        dlugosc = len(numer_bez_spacji)
+        number_no_spaces = value.replace(" ", "").upper()
+        length = len(number_no_spaces)
 
-        if dlugosc == 7:
-            wyroznik = numer_bez_spacji[:2]
-            if wyroznik not in TWO_CHAR_DISTRICT_CODES:
+        if length == 7:
+            prefix = number_no_spaces[:2]
+            if prefix not in TWO_CHAR_DISTRICT_CODES:
                 raise serializers.ValidationError(
-                    f"Niepoprawny wyróżnik powiatu '{wyroznik}' dla tablicy 7-znakowej."
+                    f"Invalid district code '{prefix}' for a 7-character license plate."
                 )
-        elif dlugosc == 8:
-            wyroznik = numer_bez_spacji[:3]
-            if wyroznik not in THREE_CHAR_DISTRICT_CODES:
+        elif length == 8:
+            prefix = number_no_spaces[:3]
+            if prefix not in THREE_CHAR_DISTRICT_CODES:
                 raise serializers.ValidationError(
-                    f"Niepoprawny wyróżnik powiatu '{wyroznik}' dla tablicy 8-znakowej."
+                    f"Invalid district code '{prefix}' for an 8-character license plate."
                 )
         else:
             raise serializers.ValidationError(
-                "Niepoprawna długość numeru rejestracyjnego. Oczekiwano 7 lub 8 znaków."
+                "Invalid license plate length. Expected 7 or 8 characters."
             )
 
         return value.upper()
