@@ -1,5 +1,3 @@
-# W pliku core_parking/urls.py
-
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -8,8 +6,13 @@ from .views.delete_user import DeleteUserView
 # from .views.user import UserList, UserViewSet
 # from .views.vehicle import VehicleList, VehicleViewSet
 from .views.employee import EmployeeList
+from .views.admin import AdminList
 from .views.login import LoginView, LoginByToken
 from .views.parking import ParkingList
+from .views.reservation import ReservationList
+from .views.vehicle import VehicleViewSet
+from .views.user import UserViewSet
+from .views.login import LoginView
 from .views.register import RegisterView
 from .views.parking_detail import ParkingDetailWithAvailability
 from .views.update_user import UpdateUserView
@@ -27,6 +30,8 @@ from .views.report import ReportCreateAPIView
 
 urlpatterns = [
     path('employees/', EmployeeList.as_view(), name='employee-list'),
+    path('admin/', AdminList.as_view(), name='admin'),
+    path('', include(router.urls)),
     path('parking/', ParkingList.as_view(), name='parking-list'),
     path("register/", RegisterView.as_view(), name="register"),
     path('login/', LoginView.as_view(), name='login'),
@@ -48,6 +53,5 @@ urlpatterns = [
     path('reservations/<int:pk>/delete/', DeleteReservationById.as_view(), name='reservation-delete'),
     path('vehicles/', VehicleListCreateView.as_view(), name='vehicle-list-create'),   
     path('vehicles/<int:pk>/', VehicleDetailView.as_view(), name='vehicle-detail'), 
-    # path('', include(router.urls)),
 
 ]
