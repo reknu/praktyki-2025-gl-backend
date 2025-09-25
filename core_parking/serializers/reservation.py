@@ -2,9 +2,17 @@ from rest_framework import serializers
 from ..models import Reservation
 from .user import UserDetailSerializer
 from .vehicle import VehicleSerializer
+from ..models import Parking
+from .parking import ParkingSerializer
 class ReservationSerializer(serializers.ModelSerializer):
     vehicle = VehicleSerializer(read_only=True)
     user = UserDetailSerializer(read_only=True)
+    spot = ParkingSerializer(read_only=True)
+    spot_id = serializers.PrimaryKeyRelatedField(
+        queryset=Parking.objects.all(),
+        source='spot',
+        write_only=True
+    )
 
     vehicle_id = serializers.PrimaryKeyRelatedField(
         queryset=Reservation._meta.get_field("vehicle").remote_field.model.objects.all(),
@@ -15,7 +23,7 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = [
-            "id", "spot", "start_date", "end_date",
+            "id", "spot", "spot_id", "start_date", "end_date",
             "vehicle", "vehicle_id",  # both read + write
             "user"
         ]

@@ -19,10 +19,14 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ["user_id", "username", "full_name", "email", "phone_number", "is_active", "is_staff"]
 
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
+
+    #def validate_username(self, value):
+    #    if User.objects.filter(username__iexact=value).exists():
+    #        raise serializers.ValidationError("Użytkownik o tej nazwie już istnieje.")
+    #    return value
 
     def validate_password(self, value):
         return validate_password(value)
@@ -71,6 +75,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         if value:
             return validate_password(value)
         return value
+
 
     def update(self, instance, validated_data):
         password = validated_data.pop("password", None)
